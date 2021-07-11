@@ -1,9 +1,11 @@
 import React from 'react';
 import ProjectMaster from './Components/ProjectMaster';
+import ProjectForm from './Components/ProjectForm';
 
 function App() {
   return (
-    <div style={{backgroundColor:"grey", height:"600px"}}>
+    <div >
+     <ProjectForm/>
      <ProjectMaster/>
     </div>
   );

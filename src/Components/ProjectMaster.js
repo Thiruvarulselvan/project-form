@@ -16,33 +16,33 @@ const ProjectMaster = () => {
     }, []);
 
     return (
-        <div className="container">
-            <h1 > PROJECT MASTER</h1>
+        <div class='p-1'>
+            <h1 class='mx-auto p-3' style={{ width: '360px' }}> PROJECT MASTER</h1>
+            <div class='p-3'>
+                <Table hover bordered>
+                    < thead >
+                        <tr>
+                            <th class='d-flex justify-content-center align-items-center'>ProjectName </th>
+                            <th>Client</th>
+                            <th>ClientCountry</th>
+                            <th>ContractType</th>
+                            <th>StartDate</th>
+                            <th>EndDate</th>
+                            <th>IsActive</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
-            <Table bordered >
-                < thead >
-                    <tr>
-                        <th>ProjectName </th>
-                        <th>Client</th>
-                        <th>ClientCountry</th>
-                        <th>ContractType</th>
-                        <th>StartDate</th>
-                        <th>EndDate</th>
-                        <th>IsActive</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                {
-                    projects === []
-                        ?
-                        null
-                        :
-                        projects.map((item) => {
-                            return (
+                    {
+                        projects === []
+                            ?
+                            null
+                            :
+                            projects.map((item, index) =>
+                            (
                                 <tbody>
-                                    <tr key={item.ProjectCode}>
-                                        <td > {item.ProjectName}</td>
+                                    <tr key={item.index}>
+                                        <td class='d-flex justify-content-center align-items-center'> {item.ProjectName}</td>
                                         <td > {item.Client}</td>
                                         <td > {item.ClientCountry}</td>
                                         <td > {item.ContractType}</td>
@@ -53,9 +53,10 @@ const ProjectMaster = () => {
                                     </tr>
                                 </tbody>
                             )
-                        })
-                }
-            </Table>
+                            )
+                    }
+                </Table>
+            </div>
         </div >
 
     );
