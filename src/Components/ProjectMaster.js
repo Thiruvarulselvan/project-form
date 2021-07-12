@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import './ProjectMaster.css'
 import { Table } from 'reactstrap';
-import axios from 'axios'
 
-const ProjectMaster = () => {
-    const [projects, setProjects] = useState([]);
+const ProjectMaster = (props) => {
 
-    useEffect(() => {
-        async function fetchData() {
-            const response = await axios.get("http://35.244.41.151:3210/project_master");
-            console.log(response)
-            setProjects(response.data)
-        }
-        fetchData();
-    }, []);
+    const projectData = props.projects;
+    console.log('received', projectData)
+
+    // const [projects, setProjects] = useState([]);
+    // console.log('props', props.projectData)
+
+    // const received = props.projectData;
+    // console.log('received', received)
+
+    // useEffect(() => {
+    //     setProjects(received);
+    // }
+    // )
+
+    // console.log('projects', projects)
+
 
     return (
         <div class='p-1'>
@@ -34,11 +40,11 @@ const ProjectMaster = () => {
                     </thead>
 
                     {
-                        projects === []
+                      projectData === []
                             ?
                             null
                             :
-                            projects.map((item, index) =>
+                            projectData.map((item, index) =>
                             (
                                 <tbody>
                                     <tr key={item.index}>
