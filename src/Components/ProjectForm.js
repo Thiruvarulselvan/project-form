@@ -1,20 +1,11 @@
+import axios from 'axios'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Button, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
-// import ProjectMaster from './ProjectMaster';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+
 const { countries } = require("country-city-location");
 
-
 const ProjectForm = (props) => {
-    // console.log(countries);
-    // const enteredDetails = [];
-    
-    let code = countries.Alpha3Code;
-    let name = countries.map((country)=>{
-        return(
-            <option key={code}>{country.Name}</option>
-        )
-    });
 
     const formik = useFormik({
         initialValues: {
@@ -50,15 +41,16 @@ const ProjectForm = (props) => {
 
 
         }),
-        onSubmit: (values, {resetForm}) => {
-            //   alert(JSON.stringify(values, null, 8));
-            console.log('valuesFromForm',values);
-            // enteredDetails.push(values);
-            props.onSubmitData(values);
-            resetForm({values:''})
-            
-            
+        onSubmit: (values, { resetForm }) => {
+            console.log("calling api---ProjectForm.js")
+            console.log('onSubmit', values);
+            axios.post("http://35.244.41.151:3210/project_master", values)
+            resetForm()
         },
+
+
+
+
     });
 
     return (
@@ -67,7 +59,7 @@ const ProjectForm = (props) => {
             <Form onSubmit={formik.handleSubmit}>
                 <div class=' d-flex justify-content-center align-items-center'>
 
-                    <div class='row border border-primary d-flex justify-content-center align-items-center' style={{ width: '1100px' }}>
+                    <div class='row d-flex justify-content-center align-items-center' style={{ width: '1100px' }}>
                         <div class='col-3'>
                             <div class='mb-3 mt-3'>
                                 <FormGroup >
@@ -83,7 +75,7 @@ const ProjectForm = (props) => {
                                     />
 
                                     <div className='text-danger'>
-                                    {/* <FormFeedback onInvalid> */}
+                                        {/* <FormFeedback onInvalid> */}
                                         {formik.touched.ProjectName && formik.errors.ProjectName ? (
                                             <div>{formik.errors.ProjectName}</div>
                                         ) : null}
@@ -100,6 +92,7 @@ const ProjectForm = (props) => {
                                         type="text"
                                         name="Client"
                                         id="client"
+                                        placeholder="Enter client name"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.Client}
@@ -117,35 +110,25 @@ const ProjectForm = (props) => {
                             <div class='mb-3'>
                                 <FormGroup >
                                     <Label for="dropdown">Client Country</Label>
-                                    {/* <Input type='select'
+                                    <Input type='select'
                                         name='ClientCountry'
                                         id='dropdown'
-                                        placeholder='Enter the country'
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.ClientCountry}> */}
-                                            {/* formik.touched.ClientCountry ?  */}
-                                        {/* {
-
-                                            countries.map((country) => (
-                                                <option key={country.Alpha3Code} >
-                                                    {country.Name}
-                                                </option>
-                                            )
-                                            )
-                                            // : null
-                                        }
-                                    </Input> */}
-
-                                      <Input type='select'
-                                        name='ClientCountry'
-                                        id='dropdown'
-                                        placeholder='Enter the country'
+                                        // placeholder='Enter the country'
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.ClientCountry}>
-                                            {name}
-                                            </Input>
+                                        <option disabled>Select</option>
+                                        {
+
+                                            countries.map((country) => (
+
+                                                <option key={country.Alpha3Code} >
+
+                                                    {country.Name}
+                                                </option>
+                                            ))}
+
+                                    </Input>
 
                                     <div className='text-danger'>
                                         {formik.touched.ClientCountry && formik.errors.ClientCountry ? (
@@ -163,6 +146,7 @@ const ProjectForm = (props) => {
                                         type="text"
                                         name="ContractType"
                                         id="type"
+                                        placeholder="Enter contract type"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.ContractType}
@@ -188,6 +172,7 @@ const ProjectForm = (props) => {
                                         id="date"
                                         min="10"
                                         max="99"
+                                        placeholder="Enter start date"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.StartDate}
@@ -211,6 +196,7 @@ const ProjectForm = (props) => {
                                         id="date"
                                         min="10"
                                         max="99"
+                                        placeholder="Enter end date"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.EndDate}
@@ -228,14 +214,18 @@ const ProjectForm = (props) => {
                             <div class='mb-3'>
                                 <FormGroup >
                                     <Label for="active" >Is Active</Label>
-                                    <Input
-                                        type="text"
-                                        name="IsActive"
-                                        id="active"
+                                    <Input type='select'
+                                        name='IsActive'
+                                        id='active'
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.IsActive}
-                                    />
+                                    >
+
+                                        <option disabled>Selecte</option>
+                                        <option name="IsActive" value="Y" >Yes</option>
+                                        <option name="IsActive" value="N" >No</option>
+                                    </Input>
 
                                     <div className='text-danger'>
                                         {formik.touched.IsActive && formik.errors.IsActive ? (
@@ -253,6 +243,7 @@ const ProjectForm = (props) => {
                                         type="text"
                                         name="Status"
                                         id="status"
+                                        placeholder="Enter status"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.Status}
@@ -267,16 +258,21 @@ const ProjectForm = (props) => {
                                 </FormGroup>
                             </div >
                         </div>
-                        <div class='d-flex justify-content-center align-items-center mt-3 mb-3'>
-                            <Button type="submit" color='primary'>
+                        <div class='d-flex align-items-center justify-content-center mt-3 mr-3 mb-3 w-4'>
+                            <Button style={{marginRight:'30px'}} type="submit" color='primary'>
                                 Submit
                             </Button>
+
+                            <Button color='danger' onClick={props.onCancel}>
+                                Cancel
+                            </Button>
+
                         </div>
+
                     </div>
 
                 </div>
             </Form>
-            {/* <ProjectMaster projectData={enteredDetails} />                 */}
 
         </div>
     );
